@@ -17,4 +17,23 @@ router.post('/:post_id/rep', async (req, res) => {
   }
 })
 
+router.get('/:post_id/com', async (req, res) => {
+  try {
+    const post_id = req.params.post_id
+    const comments = await Comment.find({ postID: post_id })
+    return res.status(200).json({ comments })
+  } catch (error) {
+    console.error(error)
+    return res.status(500).json({ error: 'Shops data cannot be retrieved!' })
+  }
+})
+router.get('/myComment', async (req, res) => {
+  try {
+    const comment = await Comment.find({ userID: req.user._id })
+    return res.status(200).json({ comment })
+  } catch (error) {
+    console.error(error)
+    return res.status(500).json({ error: 'Shops data cannot be retrieved!' })
+  }
+})
 module.exports = router
