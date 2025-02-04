@@ -5,6 +5,8 @@ const app = express()
 const mongoose = require('mongoose')
 const cors = require('cors')
 const postRouter = require('./controllers/post')
+const commentRouter = require('./controllers/comment')
+
 const authRouter = require('./controllers/auth')
 const userRouter = require('./controllers/user')
 const { verifyToken } = require('./middleware/jwtUtils')
@@ -20,6 +22,8 @@ app.use(cors())
 app.use('/auth', authRouter)
 app.use('/user', verifyToken, userRouter)
 app.use('/post', verifyToken, postRouter)
+app.use('/comment', verifyToken, commentRouter)
+
 app.listen(PORT, () => {
   console.log('The express app is ready!', PORT)
 })
