@@ -36,4 +36,44 @@ router.get('/myComment', async (req, res) => {
     return res.status(500).json({ error: 'Shops data cannot be retrieved!' })
   }
 })
+
+router.post('/:commentId/like', async (req, res) => {
+  try {
+    const post_id = req.params.commentId
+    const comment = await Comment.findByIdAndUpdate(post_id, {
+      $push: { likes: req.user._id }
+    })
+    return res.status(200).json({ comment })
+  } catch (error) {
+    console.error(error)
+    return res.status(500).json({ error: 'Shops data cannot be retrieved!' })
+  }
+})
+
+router.post('/:commentId/dislike', async (req, res) => {
+  try {
+    const post_id = req.params.commentId
+    const comment = await Comment.findByIdAndUpdate(post_id, {
+      $pull: { likes: req.user._id }
+    })
+    return res.status(200).json({ comment })
+  } catch (error) {
+    console.error(error)
+    return res.status(500).json({ error: 'Shops data cannot be retrieved!' })
+  }
+})
+
+router.get('/:commentId/like', async (req, res) => {
+  try {
+    const post_id = req.params.commentId
+    const comment = await Comment.find({}).populate('likes')
+    console.log(comment[0].likes)
+    const like = comment[0].likes.length
+    return res.status(200).json({ like })
+  } catch (error) {
+    console.error(error)
+    return res.status(500).json({ error: 'Shops data cannot be retrieved!' })
+  }
+})
+
 module.exports = router

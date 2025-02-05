@@ -35,4 +35,42 @@ router.get('/myPost', async (req, res) => {
   }
 })
 
+router.post('/:postId/like', async (req, res) => {
+  try {
+    const post_id = req.params.postId
+    const comment = await Post.findByIdAndUpdate(post_id, {
+      $push: { likes: req.user._id }
+    })
+    return res.status(200).json({ comment })
+  } catch (error) {
+    console.error(error)
+    return res.status(500).json({ error: 'Shops data cannot be retrieved!' })
+  }
+})
+
+router.post('/:postId/dislike', async (req, res) => {
+  try {
+    const post_id = req.params.postId
+    const comment = await Post.findByIdAndUpdate(post_id, {
+      $pull: { likes: req.user._id }
+    })
+    return res.status(200).json({ comment })
+  } catch (error) {
+    console.error(error)
+    return res.status(500).json({ error: 'Shops data cannot be retrieved!' })
+  }
+})
+
+router.get('/:postId/like', async (req, res) => {
+  try {
+    const post_id = req.params.postId
+    const comment = await Post.find({}).populate('likes')
+    console.log(comment[0].likes)
+    const like = comment[0].likes.length
+    return res.status(200).json({ like })
+  } catch (error) {
+    console.error(error)
+    return res.status(500).json({ error: 'Shops data cannot be retrieved!' })
+  }
+})
 module.exports = router
