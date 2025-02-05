@@ -29,6 +29,8 @@ router.get('/myPost', async (req, res) => {
   try {
     const posts = await Post.find({ userID: req.user._id })
     return res.status(200).json({ posts })
+    console.log(posts);
+    
   } catch (error) {
     console.error(error)
     return res.status(500).json({ error: 'Shops data cannot be retrieved!' })
