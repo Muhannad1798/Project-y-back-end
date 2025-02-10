@@ -1,16 +1,6 @@
 const User = require('../models/User')
 const router = require('express').Router()
 
-// router.get('/:user/profile', async (req, res) => {
-//   try {
-//     const user = await User.findById(req.params.userId)
-//     return res.status(201).json(user)
-//   } catch (error) {
-//     console.error(error)
-//     res.status(500).json({ error: 'Something went wrong!' })
-//   }
-// })
-
 router.get('/profile', async (req, res) => {
   try {
     const user = await User.findById(req.params.userId)

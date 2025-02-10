@@ -9,6 +9,8 @@ const commentRouter = require('./controllers/comment')
 
 const authRouter = require('./controllers/auth')
 const userRouter = require('./controllers/user')
+const conversationRouter = require('./controllers/conversation')
+
 const { verifyToken } = require('./middleware/jwtUtils')
 const morgan = require('morgan')
 mongoose.connect(process.env.MONGODB_URI)
@@ -24,6 +26,7 @@ app.use('/auth', authRouter)
 app.use('/user', verifyToken, userRouter)
 app.use('/post', verifyToken, postRouter)
 app.use('/comment', verifyToken, commentRouter)
+app.use('/chat', verifyToken, conversationRouter)
 
 app.listen(PORT, () => {
   console.log('The express app is ready!', PORT)
