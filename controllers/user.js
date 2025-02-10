@@ -4,8 +4,8 @@ const router = require('express').Router()
 router.get('/profile', async (req, res) => {
   try {
     const user = await User.findById(req.user._id)
-    console.log(user);
-    
+    console.log(user)
+
     return res.status(201).json(user)
   } catch (error) {
     console.error(error)
