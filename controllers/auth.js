@@ -11,6 +11,9 @@ router.post('/signup', async (req, res) => {
     const userExist = await User.findOne({ username })
     if (userExist)
       return res.status(409).json({ error: 'Username already taken.' })
+    const emailExist = await User.findOne({ email })
+    if (userExist)
+      return res.status(409).json({ error: 'Email already exist.' })
     const hashedPassword = bcrypt.hashSync(password, +process.env.SALT)
     const user = await User.create({
       username,

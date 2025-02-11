@@ -9,7 +9,9 @@ router.get('/profile', async (req, res) => {
     return res.status(201).json(user)
   } catch (error) {
     console.error(error)
-    res.status(500).json({ error: 'Something went wrong!' })
+    res
+      .status(500)
+      .json({ error: 'Something went wrong with the user profile!' })
   }
 })
 
@@ -28,7 +30,9 @@ router.post('/:userId/follow', async (req, res) => {
     return res.status(200).json({ follow })
   } catch (error) {
     console.error(error)
-    return res.status(500).json({ error: 'Shops data cannot be retrieved!' })
+    return res.status(500).json({
+      error: 'There is an issue with the follow button try again later'
+    })
   }
 })
 
@@ -44,7 +48,9 @@ router.post('/:userId/unfollow', async (req, res) => {
     return res.status(200).json({ follow })
   } catch (error) {
     console.error(error)
-    return res.status(500).json({ error: 'Shops data cannot be retrieved!' })
+    return res.status(500).json({
+      error: 'There is an issue with the unfollow button try again later'
+    })
   }
 })
 
@@ -66,7 +72,9 @@ router.get('/:userId/profile/followers', async (req, res) => {
     return res.status(200).json({ followers })
   } catch (error) {
     console.error(error)
-    return res.status(500).json({ error: 'Shops data cannot be retrieved!' })
+    return res
+      .status(500)
+      .json({ error: 'followers data cannot be retrieved!' })
   }
 })
 
@@ -88,7 +96,9 @@ router.get('/:userId/profile/following', async (req, res) => {
     return res.status(200).json({ following })
   } catch (error) {
     console.error(error)
-    return res.status(500).json({ error: 'Shops data cannot be retrieved!' })
+    return res
+      .status(500)
+      .json({ error: 'following data cannot be retrieved!' })
   }
 })
 

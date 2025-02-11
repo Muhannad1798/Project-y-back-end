@@ -32,7 +32,9 @@ router.post('/:userId/profile/dm', async (req, res) => {
     }
   } catch (error) {
     console.error(error)
-    return res.status(500).json({ error: 'Shops data cannot be retrieved!' })
+    return res
+      .status(500)
+      .json({ error: 'Something went wrong with DM. Try again later' })
   }
 })
 const convId = async (usersConv, fId, sId) => {
@@ -68,7 +70,9 @@ router.post('/:convId/dm', async (req, res) => {
     return res.status(200).json({ comment })
   } catch (error) {
     console.error(error)
-    return res.status(500).json({ error: 'Shops data cannot be retrieved!' })
+    return res
+      .status(500)
+      .json({ error: 'Message cannot be sent!. Try again later.' })
   }
 })
 
@@ -78,7 +82,7 @@ router.get('/:convId/dm', async (req, res) => {
     return res.status(200).json({ comment })
   } catch (error) {
     console.error(error)
-    return res.status(500).json({ error: 'Shops data cannot be retrieved!' })
+    return res.status(500).json({ error: 'Message data cannot be retrieved!' })
   }
 })
 
