@@ -21,7 +21,7 @@ router.get('/', async (req, res) => {
     return res.status(200).json({ posts })
   } catch (error) {
     console.error(error)
-    return res.status(500).json({ error: 'Shops data cannot be retrieved!' })
+    return res.status(500).json({ error: 'Posts data cannot be retrieved!' })
   }
 })
 
@@ -29,11 +29,10 @@ router.get('/myPost', async (req, res) => {
   try {
     const posts = await Post.find({ userID: req.user._id })
     return res.status(200).json({ posts })
-    console.log(posts);
-    
+    console.log(posts)
   } catch (error) {
     console.error(error)
-    return res.status(500).json({ error: 'Shops data cannot be retrieved!' })
+    return res.status(500).json({ error: 'Posts data cannot be retrieved!' })
   }
 })
 
@@ -46,7 +45,9 @@ router.post('/:postId/like', async (req, res) => {
     return res.status(200).json({ comment })
   } catch (error) {
     console.error(error)
-    return res.status(500).json({ error: 'Shops data cannot be retrieved!' })
+    return res
+      .status(500)
+      .json({ error: 'something went wrong, try again later' })
   }
 })
 
@@ -59,7 +60,9 @@ router.post('/:postId/dislike', async (req, res) => {
     return res.status(200).json({ comment })
   } catch (error) {
     console.error(error)
-    return res.status(500).json({ error: 'Shops data cannot be retrieved!' })
+    return res
+      .status(500)
+      .json({ error: 'something went wrong, try again later' })
   }
 })
 
@@ -72,7 +75,7 @@ router.get('/:postId/like', async (req, res) => {
     return res.status(200).json({ like })
   } catch (error) {
     console.error(error)
-    return res.status(500).json({ error: 'Shops data cannot be retrieved!' })
+    return res.status(500).json({ error: 'likes data cannot be retrieved!' })
   }
 })
 module.exports = router
