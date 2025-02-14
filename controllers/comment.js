@@ -13,7 +13,7 @@ router.post('/:post_id/rep', async (req, res) => {
     return res.status(201).json({ comment })
   } catch (error) {
     console.error(error)
-    return res.status(500).json({ error: 'Post can not be created!' })
+    return res.status(500).json({ error: 'comment can not be created!' })
   }
 })
 
@@ -24,7 +24,7 @@ router.get('/:post_id/com', async (req, res) => {
     return res.status(200).json({ comments })
   } catch (error) {
     console.error(error)
-    return res.status(500).json({ error: 'Shops data cannot be retrieved!' })
+    return res.status(500).json({ error: 'comment data cannot be retrieved!' })
   }
 })
 router.get('/myComment', async (req, res) => {
@@ -33,7 +33,7 @@ router.get('/myComment', async (req, res) => {
     return res.status(200).json({ comment })
   } catch (error) {
     console.error(error)
-    return res.status(500).json({ error: 'Shops data cannot be retrieved!' })
+    return res.status(500).json({ error: 'comments data cannot be retrieved!' })
   }
 })
 
@@ -46,7 +46,9 @@ router.post('/:commentId/like', async (req, res) => {
     return res.status(200).json({ comment })
   } catch (error) {
     console.error(error)
-    return res.status(500).json({ error: 'Shops data cannot be retrieved!' })
+    return res
+      .status(500)
+      .json({ error: 'something went wrong, try again later' })
   }
 })
 
@@ -59,7 +61,9 @@ router.post('/:commentId/dislike', async (req, res) => {
     return res.status(200).json({ comment })
   } catch (error) {
     console.error(error)
-    return res.status(500).json({ error: 'Shops data cannot be retrieved!' })
+    return res
+      .status(500)
+      .json({ error: 'something went wrong, try again later' })
   }
 })
 
@@ -72,7 +76,7 @@ router.get('/:commentId/like', async (req, res) => {
     return res.status(200).json({ like })
   } catch (error) {
     console.error(error)
-    return res.status(500).json({ error: 'Shops data cannot be retrieved!' })
+    return res.status(500).json({ error: 'likes data cannot be retrieved!' })
   }
 })
 
