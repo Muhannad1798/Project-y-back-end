@@ -8,6 +8,8 @@ router.post('/tweet', async (req, res) => {
     req.body.userID = req.user._id
 
     const post = await Post.create(req.body)
+    console.log(post)
+
     return res.status(201).json({ post })
   } catch (error) {
     console.error(error)
@@ -15,9 +17,15 @@ router.post('/tweet', async (req, res) => {
   }
 })
 
-router.get('/', async (req, res) => {
+router.get('/post', async (req, res) => {
   try {
-    const posts = await Post.find({})
+    const posts = await Post.find({}).populate('userID')
+    /*for (const post of posts) {
+      const user = await Post.findById(post._id).populate('userID')
+      post.userInf = user
+      console.log(user)
+    }*/
+
     return res.status(200).json({ posts })
   } catch (error) {
     console.error(error)

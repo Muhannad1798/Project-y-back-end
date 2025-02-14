@@ -19,23 +19,30 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true
     },
+    bio: {
+      type: String,
+      default: ' this is my bio'
+    },
     email: {
       type: String,
       required: true,
       unique: true
     },
+    followingN: { type: Number, default: 0 },
     following: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
       }
     ],
+    followersN: { type: Number, default: 0 },
     followers: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
       }
     ],
+    postN: { type: Number, default: 0 },
     conversation: [
       {
         type: mongoose.Schema.Types.ObjectId,
