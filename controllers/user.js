@@ -1,17 +1,74 @@
 const User = require('../models/User')
+const Post = require('../models/Post')
 const router = require('express').Router()
 
 router.get('/profile', async (req, res) => {
   try {
     const user = await User.findById(req.user._id)
-    console.log(user)
-
     return res.status(201).json(user)
   } catch (error) {
     console.error(error)
     res
       .status(500)
       .json({ error: 'Something went wrong with the user profile!' })
+  }
+})
+router.get('/:userId/profile', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.userId)
+    return res.status(201).json(user)
+  } catch (error) {
+    console.error(error)
+    res
+      .status(500)
+      .json({ error: 'Something went wrong with the user profile!' })
+  }
+})
+router.get('/:userId/following', async (req, res) => {
+  try {
+    const user_id = req.params.userId
+    const comment = await User.find({}).populate('following')
+    console.log(comment[1].following)
+    const following = comment[1].following.length
+    return res.status(200).json({ following })
+  } catch (error) {
+    console.error(error)
+    return res.status(500).json({ error: 'likes data cannot be retrieved!' })
+  }
+})
+router.get('/:userId/following', async (req, res) => {
+  try {
+    const user_id = req.params.userId
+    const comment = await User.find({}).populate('following')
+    console.log(comment[1].following)
+    const following = comment[1].following.length
+    return res.status(200).json({ following })
+  } catch (error) {
+    console.error(error)
+    return res.status(500).json({ error: 'likes data cannot be retrieved!' })
+  }
+})
+
+router.get('/:userId/followers', async (req, res) => {
+  try {
+    const user_id = req.params.userId
+    const comment = await User.find({}).populate('followers')
+    console.log(comment[2].followers)
+    const following = comment[2].followers.length
+    return res.status(200).json({ following })
+  } catch (error) {
+    console.error(error)
+    return res.status(500).json({ error: 'likes data cannot be retrieved!' })
+  }
+})
+
+router.get('/users', async (req, res) => {
+  try {
+    const user = await User.find({})
+    return res.status(201).json(user)
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ error: 'Something went wrong with the users!' })
   }
 })
 
