@@ -24,6 +24,7 @@ router.get('/:userId/profile', async (req, res) => {
       .json({ error: 'Something went wrong with the user profile!' })
   }
 })
+/*
 router.get('/:userId/following', async (req, res) => {
   try {
     const user_id = req.params.userId
@@ -35,13 +36,14 @@ router.get('/:userId/following', async (req, res) => {
     console.error(error)
     return res.status(500).json({ error: 'likes data cannot be retrieved!' })
   }
-})
+})*/
 router.get('/:userId/following', async (req, res) => {
   try {
     const user_id = req.params.userId
-    const comment = await User.find({}).populate('following')
-    console.log(comment[1].following)
-    const following = comment[1].following.length
+    const comment = await User.findOne({ _id: user_id }).populate('following')
+    console.log(comment.following.length)
+
+    const following = comment.following.length
     return res.status(200).json({ following })
   } catch (error) {
     console.error(error)
@@ -52,10 +54,11 @@ router.get('/:userId/following', async (req, res) => {
 router.get('/:userId/followers', async (req, res) => {
   try {
     const user_id = req.params.userId
-    const comment = await User.find({}).populate('followers')
-    console.log(comment[2].followers)
-    const following = comment[2].followers.length
-    return res.status(200).json({ following })
+    const comment = await User.findOne({ _id: user_id }).populate('followers')
+    console.log(comment.followers.length)
+
+    const followers = comment.followers.length
+    return res.status(200).json({ followers })
   } catch (error) {
     console.error(error)
     return res.status(500).json({ error: 'likes data cannot be retrieved!' })
