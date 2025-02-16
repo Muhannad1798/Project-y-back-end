@@ -18,12 +18,7 @@ router.post('/tweet', async (req, res) => {
 
 router.get('/post', async (req, res) => {
   try {
-    const posts = await Post.find({}).populate('userID')
-    /*for (const post of posts) {
-      const user = await Post.findById(post._id).populate('userID')
-      post.userInf = user
-      console.log(user)
-    }*/
+    const posts = await Post.find({}).populate('userID').sort({ createdAt: 1 })
 
     return res.status(200).json({ posts })
   } catch (error) {
