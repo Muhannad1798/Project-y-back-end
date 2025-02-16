@@ -9,7 +9,6 @@ router.post('/tweet', async (req, res) => {
 
     const post = await Post.create(req.body)
     console.log(post)
-
     return res.status(201).json({ post })
   } catch (error) {
     console.error(error)
@@ -44,9 +43,40 @@ router.get('/myPost', async (req, res) => {
   }
 })
 
+router.get('/:userId/otherPost', async (req, res) => {
+  try {
+    const posts = await Post.find({ userID: req.params.userId })
+    return res.status(200).json({ posts })
+    console.log(posts)
+  } catch (error) {
+    console.error(error)
+    return res.status(500).json({ error: 'Posts data cannot be retrieved!' })
+  }
+})
+
+router.get('/followingPost', async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id).populate('following')
+    const followingIds = user.following.map((follow) => follow._id)
+    followingIds.push(req.user.id)
+    const posts = await Post.find({ userID: { $in: followingIds } }).populate(
+      'userID'
+    )
+    console.log(posts)
+
+    return res.status(200).json({ posts })
+    console.log(posts)
+  } catch (error) {
+    console.error(error)
+    return res.status(500).json({ error: 'Posts data cannot be retrieved!' })
+  }
+})
+
 router.post('/:postId/like', async (req, res) => {
   try {
     const post_id = req.params.postId
+    console.log(post_id)
+
     const comment = await Post.findByIdAndUpdate(post_id, {
       $push: { likes: req.user._id }
     })
@@ -77,9 +107,8 @@ router.post('/:postId/dislike', async (req, res) => {
 router.get('/:postId/like', async (req, res) => {
   try {
     const post_id = req.params.postId
-    const comment = await Post.find({}).populate('likes')
-    console.log(comment[0].likes)
-    const like = comment[0].likes.length
+    const comment = await Post.findOne({ _id: post_id }).populate('likes')
+    const like = comment
     return res.status(200).json({ like })
   } catch (error) {
     console.error(error)
