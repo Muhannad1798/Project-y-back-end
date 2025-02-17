@@ -13,7 +13,6 @@ router.post('/:userId/profile/dm', async (req, res) => {
 
     const usersConv = user.conversation
     let conversation_id = await convId(usersConv, req.user._id, user_id)
-    console.log(conversation_id)
 
     if (conversation_id == 0) {
       req.body.firstUser = req.user._id
@@ -67,6 +66,8 @@ router.post('/:convId/dm', async (req, res) => {
     req.body.sender = req.user._id
     req.body.convID = req.params.convId
     const comment = await Message.create(req.body)
+    console.log(comment)
+
     return res.status(200).json({ comment })
   } catch (error) {
     console.error(error)
@@ -83,6 +84,42 @@ router.get('/:convId/dm', async (req, res) => {
   } catch (error) {
     console.error(error)
     return res.status(500).json({ error: 'Message data cannot be retrieved!' })
+  }
+})
+
+router.get('/dm/conv', async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id)
+
+    const conversations = await Conversation.find({
+      $or: [{ firstUser: req.user._id }, { secondUser: req.user._id }]
+    })
+
+    const convDetails = await Promise.all(
+      conversations.map(async (conversation) => {
+        const otherUserId =
+          conversation.firstUser.toString() === req.user._id.toString()
+            ? conversation.secondUser
+            : conversation.firstUser
+
+        const otherUser = await User.findById(otherUserId)
+
+        const lastMessage = await Message.findOne({ convID: conversation._id })
+          .sort({ createdAt: -1 })
+          .limit(1)
+
+        return {
+          conversation,
+          otherUser,
+          lastMessage: lastMessage ? lastMessage.message : 'No messages yet'
+        }
+      })
+    )
+
+    res.status(200).json({ conversations: convDetails })
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ error: 'Failed to retrieve conversations' })
   }
 })
 
