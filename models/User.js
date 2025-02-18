@@ -23,6 +23,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: ' this is my bio'
     },
+    pic: {
+      type: String,
+      default:
+        'https://merriam-webster.com/assets/mw/images/article/art-wap-article-main/egg-3442-e1f6463624338504cd021bf23aef8441@1x.jpg'
+    },
     email: {
       type: String,
       required: true,
