@@ -66,7 +66,6 @@ router.post('/:convId/dm', async (req, res) => {
     req.body.sender = req.user._id
     req.body.convID = req.params.convId
     const comment = await Message.create(req.body)
-    console.log(comment)
 
     return res.status(200).json({ comment })
   } catch (error) {
@@ -90,7 +89,6 @@ router.get('/:convId/dm', async (req, res) => {
 router.get('/dm/conv', async (req, res) => {
   try {
     const user = await User.findById(req.user._id)
-
     const conversations = await Conversation.find({
       $or: [{ firstUser: req.user._id }, { secondUser: req.user._id }]
     })

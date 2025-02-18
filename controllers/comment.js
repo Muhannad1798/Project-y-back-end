@@ -21,6 +21,8 @@ router.get('/:post_id/com', async (req, res) => {
   try {
     const post_id = req.params.post_id
     const comments = await Comment.find({ postID: post_id })
+      .populate('postID')
+      .populate('userID')
     return res.status(200).json({ comments })
   } catch (error) {
     console.error(error)
@@ -71,7 +73,6 @@ router.get('/:commentId/like', async (req, res) => {
   try {
     const post_id = req.params.commentId
     const comment = await Comment.find({}).populate('likes')
-    console.log(comment[0].likes)
     const like = comment[0].likes.length
     return res.status(200).json({ like })
   } catch (error) {

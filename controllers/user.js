@@ -48,7 +48,9 @@ router.get('/:userId/followers', async (req, res) => {
     return res.status(200).json({ followers })
   } catch (error) {
     console.error(error)
-    return res.status(500).json({ error: 'likes data cannot be retrieved!' })
+    return res
+      .status(500)
+      .json({ error: 'something went wrong data cannot be retrieved!!' })
   }
 })
 
@@ -61,7 +63,9 @@ router.get('/:userId/isFollowing', async (req, res) => {
     return res.status(200).json({ following })
   } catch (error) {
     console.error(error)
-    return res.status(500).json({ error: 'likes data cannot be retrieved!' })
+    return res
+      .status(500)
+      .json({ error: 'something went wrong data cannot be retrieved!!' })
   }
 })
 
@@ -77,6 +81,8 @@ router.get('/users', async (req, res) => {
 
 router.post('/:userId/follow', async (req, res) => {
   try {
+    console.log('test')
+
     if (req.user._id === req.params.userId) {
       return res.status(600).json({ error: 'you can not follow yourself' })
     }
@@ -87,6 +93,8 @@ router.post('/:userId/follow', async (req, res) => {
     const iFollow = await User.findByIdAndUpdate(req.user._id, {
       $push: { following: id }
     })
+    console.log(id)
+
     return res.status(200).json({ follow })
   } catch (error) {
     console.error(error)
