@@ -81,8 +81,6 @@ router.get('/users', async (req, res) => {
 
 router.post('/:userId/follow', async (req, res) => {
   try {
-    console.log('test')
-
     if (req.user._id === req.params.userId) {
       return res.status(600).json({ error: 'you can not follow yourself' })
     }
@@ -93,7 +91,6 @@ router.post('/:userId/follow', async (req, res) => {
     const iFollow = await User.findByIdAndUpdate(req.user._id, {
       $push: { following: id }
     })
-    console.log(id)
 
     return res.status(200).json({ follow })
   } catch (error) {
@@ -167,6 +164,22 @@ router.get('/:userId/profile/following', async (req, res) => {
     return res
       .status(500)
       .json({ error: 'following data cannot be retrieved!' })
+  }
+})
+
+router.put('/edit/profile', async (req, res) => {
+  try {
+    const { bio, pic } = req.body
+    const user = await User.findByIdAndUpdate(req.user._id, {
+      bio,
+      pic
+    })
+    console.log(user)
+
+    return res.status(201).json(user)
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ error: 'Something went wrong with the users!' })
   }
 })
 
